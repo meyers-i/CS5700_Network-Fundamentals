@@ -1,0 +1,6 @@
+First, we sent the Hello message with our NU ID and looped over the status messages.
+For each status message, we compute the solution and send it to the server. The loop ends
+if we reach a BYE or an unknown message where we either print the flag or raise exception.
+
+We tested the code by testing the flags and tested the solutions to the problems were correct.
+We ran on both our NU IDs to make sure we both got secret flags. 

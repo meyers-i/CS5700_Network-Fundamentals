@@ -1,0 +1,30 @@
+Sahith Nallapareddy 001287859
+Ian Meyers 001792280
+
+High level approach:
+
+The login process involved replicating the form request sent from the browser. To do this, 
+we had to parse the HTML returned by the request. We used python's HTMLParser to store the 
+tags, attributes, and data. From there, we extracted the csrf middleware token from a hidden input field 
+and send that token as a cookie in the request headers. Once the request returned a 302, we extracted
+the session id and added that in the cookies of each header after. 
+
+From there, we looped over a list of urls extracted from every page we visited keeping track of
+the urls already seen. We found each url by looking at the a tags and their href attribute.
+On each page, we search for the secret flag and if found saved it. Once we reached 5 flags, 
+we stopped crawling and print out each flag. If a page returned a 500, then we retried the 
+request to see if it would succeed on the next with a max retry count of 3. If the page returned
+404/403, then we abandoned the url and moved on to the next one. Finally, if the page returned 301,
+then we redirect to the given url from the response. 
+
+Challenges:
+Logging in was difficult because the python urllib library automatically handled redirects. However,
+this did not add the session id so we had to replace the default redirect function on the login request.
+
+Testing:
+We ran it on both our username and passwords to retrieve our secret flags. We tried incorrect username 
+and passwords to make sure our program handled the error appropriately. We tested all the HTTP errors
+as well as urls timing out to make sure our crawler handles them correctly.
+
+Sahith - Form login, HTML parsing, and main crawler
+Ian - Main crawler, HTTP error handling 
